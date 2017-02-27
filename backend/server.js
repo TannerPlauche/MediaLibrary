@@ -1,7 +1,7 @@
 import express from "express";
 import logger from "morgan";
 import bodyparser from "body-parser";
-import multer from "multer";
+import cors from "cors";
 import mongoose from "mongoose";
 
 import MediaRecordRoutes from "./routes/MediaRecordRoutes";
@@ -11,6 +11,7 @@ const port = 9000 || process.env.PORT;
 mongoose.Promise = require('bluebird');
 mongoose.connect("mongodb://localhost/SiselToolbelt");
 
+server.use(cors());
 server.use(logger("dev"));
 server.use(bodyparser.json());
 // server.use(multer);

@@ -13,6 +13,7 @@ const VideoRecord = new Schema({
         type: Boolean,
         default: false
     },
+    tags:{type: [String], required: true},
     updatedBy: String
 }, {
     timestamps: true

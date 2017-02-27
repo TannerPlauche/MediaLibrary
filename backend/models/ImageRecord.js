@@ -9,10 +9,14 @@ const ImageRecord = new Schema({
         type: String,
         required: true
     },
+    height: Number,
+    width: Number,
+    format: String,
     customizeable: {
         type: Boolean,
         default: false
     },
+    tags:{type: [String], required: true},
     updatedBy: String
 }, {
     timestamps: true

@@ -41,7 +41,8 @@ MediaRecordRoute.route("/")
 
     })
     .get((req, res) => {
-        MediaRecord.find({'tags': {$elemMatch: {'title': req.body.title}}}, (err, foundRecords) => {
+        MediaRecord.find((err, foundRecords) => {
+            console.log(foundRecords);
             "use strict";
             if (err)
                 res.status(500).send({message: "There was a problem finding records with that tag", err: err});
