@@ -4,6 +4,7 @@ import VideoRecord from "./VideoRecord";
 import MediaTag from "./MediaTag";
 const Schema = mongoose.Schema;
 const MediaRecord = new Schema({
+    type: String,
     title: {
         type: String,
         required: true,
@@ -11,13 +12,15 @@ const MediaRecord = new Schema({
     },
     images: {type: [ImageRecord], index: true},
     videos: {type: [VideoRecord], index: true},
-    tags: {type: [MediaTag], index: true},
+    tags: {type: [String], index: true},
+    campaigns: {type: [String], index: true},
     // tags: [{
     //     type: Schema.Types.ObjectId,
     //     ref: 'MediaTag'
     // }],
     updatedBy: String
 }, {
+    strict: false,
     timestamps: true
 });
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import mediaStore from "../../stores/mediaStore";
 import ImageMediaCard from "../components/cards/ImageMediaCard";
+import VideoMediaCard from "../components/cards/VideoMediaCard";
 import AddMediaDialog from "../components/menu/AddMediaModal";
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -137,6 +138,7 @@ export default class MediaLibraryContainer extends Component {
                     <ImageMediaCard/>
                     <ImageMediaCard/>
                     <ImageMediaCard/>
+                    <VideoMediaCard/>
                 </div>
                 {this.props.children}
                 {JSON.stringify(mediaStore.currentMediaItems)}

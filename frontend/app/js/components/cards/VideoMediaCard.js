@@ -48,7 +48,9 @@ export default class videoMediaCard extends Component {
                             showExpandableButton={true}
                 />
                 <CardMedia >
-                    <img src="http://www.siselbeauty.com/images/testimonialsPortrait1.jpeg" alt=""/>
+                    <video src="https://content.siselinternational.com/static-html/ipayout.mp4" controls>
+                        <source src="https://content.siselinternational.com/static-html/ipayout.mp4"/>
+                    </video>
                 </CardMedia>
                 <CardTitle title="Intrepid Before and After title" subtitle="Card subtitle"/>
                 <CardText>This is an example of a media card</CardText>
@@ -57,7 +59,7 @@ export default class videoMediaCard extends Component {
                             icon={this.state.expanded ? <ExpandLess color={red500}/> : <ExpandMore color={red500}/> }>
                     {this.state.expanded ? "Hide details" : "Show details"}
                 </FlatButton>
-                <a href="http://www.siselbeauty.com/images/testimonialsPortrait1.jpeg" style={styles.downloadAnchor} download>
+                <a href="https://content.siselinternational.com/static-html/ipayout.mp4" style={styles.downloadAnchor} download>
                     <FlatButton
                         labelPosition="before"
                         icon={<Download color={red500}/>} >Download</FlatButton>
