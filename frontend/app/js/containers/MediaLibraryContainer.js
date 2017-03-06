@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import mediaStore from "../../stores/mediaStore";
-import ImageMediaCard from "../components/cards/ImageMediaCard";
-import VideoMediaCard from "../components/cards/VideoMediaCard";
+import MediaCard from "../components/cards/MediaCard";
 import AddMediaDialog from "../components/menu/AddMediaModal";
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -45,7 +44,7 @@ const styles = {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'flex-start'
     },
     addMediaModal: {
         width: '80%',
@@ -56,17 +55,18 @@ const styles = {
 
 @observer
 export default class MediaLibraryContainer extends Component {
-  state = {
-     openModal: mediaStore.addMediaModalIsOpen,
+    state = {
+        openModal: mediaStore.addMediaModalIsOpen,
     };
+
     componentWillMount() {
         console.log(mediaStore.addMediaModalIsOpen);
     }
 
-    toggleOpenModal = () =>{
+    toggleOpenModal = () => {
         mediaStore.toggleOpenMediaModal();
         this.setState({openModal: !this.state.openModal});
-    }
+    };
 
     activeTypeSearchMedia = () => {
         // let debounceSearch = _.debounce(mediaStore.getMedia, 250);
@@ -74,7 +74,7 @@ export default class MediaLibraryContainer extends Component {
         mediaStore.debounceMediaSearch();
     };
 
-    searchMedia=()=>{
+    searchMedia = () => {
         console.log(mediaStore.advancedSearchIsVisible);
         mediaStore.getMedia();
     };
@@ -84,7 +84,19 @@ export default class MediaLibraryContainer extends Component {
         mediaStore.toggleAdvancedSearch();
     };
 
+    addRemoveTypeForQuery = (event)=>{
+        console.log(event);
+        console.log(event.target.name);
+        let type = event.target.name;
+        mediaStore.addRemoveTypeForQuery(type);
+    };
+
     render() {
+
+        let mediaItems = mediaStore.currentMediaItems.map((item, index) => (
+                <MediaCard key={index} mediaRecord={item}/>
+            )
+        );
 
         return (
             <div>
@@ -132,18 +144,24 @@ export default class MediaLibraryContainer extends Component {
                 {mediaStore.advancedSearchIsVisible ? (
                         <div>
                             Advanced Options
+                            Type:
+                            <div>
+                                <label htmlFor="imageMediaQuery"><input id="imageMediaQuery" name="image" type="checkbox" onChange={this.addRemoveTypeForQuery}/>Image</label>
+                                <label htmlFor="videoMediaQuery"><input id="videoMediaQuery" name="video" type="checkbox" onChange={this.addRemoveTypeForQuery}/>video</label>
+                                <label htmlFor="audioMediaQuery"><input id="audioMediaQuery" name="audio" type="checkbox" onChange={this.addRemoveTypeForQuery}/>audio</label>
+                                <label htmlFor="pdfMediaQuery"><input id="pdfMediaQuery" name="pdf" type="checkbox" onChange={this.addRemoveTypeForQuery}/>PDF</label>
+                                <label htmlFor="presentationMediaQuery"><input id="presentationMediaQuery" name="presentation" type="checkbox" onChange={this.addRemoveTypeForQuery}/>Presentation</label>
+                                <label htmlFor="otherMediaQuery"><input id="otherMediaQuery" name="other" type="checkbox" onChange={this.addRemoveTypeForQuery}/>Other</label>
+                            </div>
+                            {JSON.stringify(mediaStore.mediaQuery)}
                         </div>
                     ) : ""}
                 <div className="row" style={styles.resultsArea}>
-                    <ImageMediaCard/>
-                    <ImageMediaCard/>
-                    <ImageMediaCard/>
-                    <VideoMediaCard/>
+                    {mediaItems}
                 </div>
-                {this.props.children}
-                {JSON.stringify(mediaStore.currentMediaItems)}
-                {/*Dialog for adding stuff*/}
-               <AddMediaDialog open={mediaStore.addMediaModalIsOpen} newMediaItem={mediaStore.newMediaItem} toggleOpen={this.toggleOpenModal}/>
+                {/*{JSON.stringify(mediaStore.currentMediaItems)}*/}
+                <AddMediaDialog open={mediaStore.addMediaModalIsOpen} newMediaItem={mediaStore.newMediaItem}
+                                toggleOpen={this.toggleOpenModal}/>
             </div>
         )
     }

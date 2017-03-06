@@ -10,14 +10,10 @@ const MediaRecord = new Schema({
         required: true,
         unique: true,
     },
-    images: {type: [ImageRecord], index: true},
-    videos: {type: [VideoRecord], index: true},
-    tags: {type: [String], index: true},
-    campaigns: {type: [String], index: true},
-    // tags: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'MediaTag'
-    // }],
+    tags: {type: [], index: true},
+    campaigns: {type: [Schema.Types.ObjectId],
+        ref: 'CampaignRecord',
+        index: true},
     updatedBy: String
 }, {
     strict: false,

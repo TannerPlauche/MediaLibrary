@@ -3,11 +3,19 @@ import reactDOM from 'react-dom';
 import { Router, IndexRoute, Route, Link, hashHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Wrapper from './containers/Wrapper';
 import HomeContainer from './containers/HomeContainer';
 import MediaLibraryContainer from './containers/MediaLibraryContainer';
 injectTapEventPlugin();
+import {red900, red500} from 'material-ui/styles/colors'
+
+const muiTheme = getMuiTheme({
+    datePicker: {
+        selectColor: red500,
+    },
+});
 
 class App extends Component{
     render(){
@@ -27,7 +35,7 @@ class App extends Component{
 class Main extends Component {
     render() {
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={muiTheme}>
                 <App/>
             </MuiThemeProvider>
         )
