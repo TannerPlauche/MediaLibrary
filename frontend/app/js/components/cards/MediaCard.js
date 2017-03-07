@@ -183,6 +183,7 @@ export default class MediaCard extends Component {
                 <CardText style={styles.detailSection} expandable={true}>
                     <div>
                         <div>
+                            Tags:
                             <ReactTags tags={this.props.mediaRecord.tags}
                                        suggestions={this.state.suggestions}
                                        handleDelete={this.handleDelete}

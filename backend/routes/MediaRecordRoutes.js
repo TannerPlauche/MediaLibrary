@@ -18,9 +18,9 @@ MediaRecordRoute.route("/")
                 res.status(500).send({message: "There was a problem finding a record", err: err});
             } else if (!foundMediaRecord) {
                 let newMediaRecord = new MediaRecord(req.body);
-                console.log("new media record",newMediaRecord);
-                console.log("is media record",newMediaRecord instanceof MediaRecord);
-                newMediaRecord.save(function(err, savedMediaRecord){
+                console.log("new media record", newMediaRecord);
+                console.log("is media record", newMediaRecord instanceof MediaRecord);
+                newMediaRecord.save(function (err, savedMediaRecord) {
                     if (err)
                         res.status(500).send({
                             message: "There was a problem saving the record with new record",
@@ -33,7 +33,7 @@ MediaRecordRoute.route("/")
                 console.log("updated Media Record", foundMediaRecord);
                 foundMediaRecord.save((err, savedMediaRecord) => {
                     console.log("save err:", err);
-                    console.log("saved record: ",savedMediaRecord);
+                    console.log("saved record: ", savedMediaRecord);
                     if (err)
                         res.status(500).send({
                             message: "There was a problem saving the record, w/ found record",
@@ -47,22 +47,71 @@ MediaRecordRoute.route("/")
     })
     .get((req, res) => {
         console.log(req.url);
-        console.log("params",req.params);
-        console.log("query",req.query);
+        // console.log("params",req.params);
+        // console.log("query",req.query);
         let request = req.query;
-        console.log(request);
+        // console.log(request);
         let query = {};
 
+        // Build query from req params
+        // query string
+        if (request.searchString) {
+
+            let stringQuery = [
+                {
+                    tags: {
+                        $elemMatch: {
+                            text: {
+                                $regex: request.searchString,
+                                $options: 'i'
+                            }
+                        }
+                    }
+                },
+                {
+                    title: {
+                        $regex: request.searchString,
+                        $options: 'i'
+                    }
+                },
+                {
+                    description: {
+                        $regex: request.searchString,
+                        $options: 'i'
+                    }
+                }
+            ];
+            if (request.types) {
+                query['$and'] = [];
+                query['$and'].push({'$or': stringQuery});
+
+            } else {
+                query["$or"] = stringQuery;
+            }
+        }
+
+        // {'tags': {$elemMatch: {title: req.params.title}}}
+
+        // get types
         if (request.types && request.types.length) {
-            let typesQuery = request.types.map((type)=>{
-               if(type instanceof String)
-               console.log({type});
-                   return {type: type};
+            let typesQuery = request.types.map((type) => {
+                if (type instanceof String)
+                    console.log({type});
+                return {type: type};
             });
 
-            query["$or"] = typesQuery;
+            if (query['$and']) {
+                query['$and'].push({"$or": typesQuery})
+            } else {
+                query["$or"] = typesQuery;
+            }
         }
-        console.log(query);
+
+        // get boolean field options
+        if (request.customizable) query.customizable = true;
+        if (request.downloadable) query.downloadable = true;
+
+        console.log("This is the query", JSON.stringify(query));
         MediaRecord.find(query, (err, foundRecords) => {
             if (err)
                 res.status(500).send({message: "There was a problem finding records with that tag", err: err});
@@ -115,10 +164,10 @@ MediaRecordRoute.route("/campaign")
             }
         })
     })
-    .get((req, res)=>{
-        CampaignRecord.find({},(err, foundRecords) => {
+    .get((req, res) => {
+        CampaignRecord.find({}, (err, foundRecords) => {
             if (err) res.status(500).send(err);
-            console.log("found records",foundRecords);
+            console.log("found records", foundRecords);
             res.send(foundRecords);
         })
     });

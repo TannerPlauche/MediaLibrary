@@ -49,6 +49,13 @@ const styles = {
     addMediaModal: {
         width: '80%',
         maxWidth: 'none',
+    },
+    advancedQuerySection: {
+        backgroundColor: '#d3d3d3',
+        margin: 10
+    },
+    queryTypeLabel: {
+        margin: 5
     }
 
 };
@@ -68,10 +75,9 @@ export default class MediaLibraryContainer extends Component {
         this.setState({openModal: !this.state.openModal});
     };
 
-    activeTypeSearchMedia = () => {
-        // let debounceSearch = _.debounce(mediaStore.getMedia, 250);
-        // debounceSearch();
-        mediaStore.debounceMediaSearch();
+    setQuerySearchString = (event) => {
+        let value = event.target.value;
+        mediaStore.setQuerySearchString(value);
     };
 
     searchMedia = () => {
@@ -84,11 +90,19 @@ export default class MediaLibraryContainer extends Component {
         mediaStore.toggleAdvancedSearch();
     };
 
-    addRemoveTypeForQuery = (event)=>{
+    addRemoveTypeForQuery = (event) => {
         console.log(event);
         console.log(event.target.name);
         let type = event.target.name;
         mediaStore.addRemoveTypeForQuery(type);
+    };
+
+    addRemoveOptionForQuery = (event) => {
+        console.log(event);
+        let property = event.target.name;
+        let value = event.target.checked;
+        console.log(property, value);
+        mediaStore.addRemoveOptionForQuery(property, value);
     };
 
     render() {
@@ -116,7 +130,7 @@ export default class MediaLibraryContainer extends Component {
                 </div>
                 <div style={{margin: 15}}>
                     <TextField
-                        onChange={this.activeTypeSearchMedia}
+                        onChange={this.setQuerySearchString}
                         underlineFocusStyle={styles.underlineTextStyle}
                         underlineStyle={styles.underlineTextStyle}
                         floatingLabelStyle={styles.inputFieldHelper}
@@ -144,14 +158,62 @@ export default class MediaLibraryContainer extends Component {
                 {mediaStore.advancedSearchIsVisible ? (
                         <div>
                             Advanced Options
-                            Type:
-                            <div>
-                                <label htmlFor="imageMediaQuery"><input id="imageMediaQuery" name="image" type="checkbox" onChange={this.addRemoveTypeForQuery}/>Image</label>
-                                <label htmlFor="videoMediaQuery"><input id="videoMediaQuery" name="video" type="checkbox" onChange={this.addRemoveTypeForQuery}/>video</label>
-                                <label htmlFor="audioMediaQuery"><input id="audioMediaQuery" name="audio" type="checkbox" onChange={this.addRemoveTypeForQuery}/>audio</label>
-                                <label htmlFor="pdfMediaQuery"><input id="pdfMediaQuery" name="pdf" type="checkbox" onChange={this.addRemoveTypeForQuery}/>PDF</label>
-                                <label htmlFor="presentationMediaQuery"><input id="presentationMediaQuery" name="presentation" type="checkbox" onChange={this.addRemoveTypeForQuery}/>Presentation</label>
-                                <label htmlFor="otherMediaQuery"><input id="otherMediaQuery" name="other" type="checkbox" onChange={this.addRemoveTypeForQuery}/>Other</label>
+                            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                                <div style={styles.advancedQuerySection}>
+                                    <h6>Availability:</h6>
+                                    <label style={styles.queryTypeLabel} htmlFor="customizableQuery"><input
+                                        id="customizableQuery" name="customizable" type="checkbox"
+                                        onChange={this.addRemoveOptionForQuery}/> Customizable </label>
+                                    <label style={styles.queryTypeLabel} htmlFor="downloadableQuery"><input
+                                        id="downloadableQuery" name="downloadable" type="checkbox"
+                                        onChange={this.addRemoveOptionForQuery}/> Downloadable </label>
+                                </div>
+
+                                <div style={styles.advancedQuerySection}>
+                                    <h6>Type:</h6>
+                                    <label style={styles.queryTypeLabel} htmlFor="imageMediaQuery">
+                                        <input
+                                        id="imageMediaQuery"
+                                        name="image"
+                                        type="checkbox"
+                                        onChange={this.addRemoveTypeForQuery}/> Image
+                                    </label>
+                                    <label style={styles.queryTypeLabel} htmlFor="videoMediaQuery">
+                                        <input
+                                        id="videoMediaQuery"
+                                        name="video"
+                                        type="checkbox"
+                                        onChange={this.addRemoveTypeForQuery}/> video
+                                    </label>
+                                    <label style={styles.queryTypeLabel} htmlFor="audioMediaQuery">
+                                        <input
+                                        id="audioMediaQuery"
+                                        name="audio"
+                                        type="checkbox"
+                                        onChange={this.addRemoveTypeForQuery}/> audio
+                                    </label>
+                                    <label style={styles.queryTypeLabel} htmlFor="pdfMediaQuery">
+                                        <input
+                                        id="pdfMediaQuery"
+                                        name="pdf"
+                                        type="checkbox"
+                                        onChange={this.addRemoveTypeForQuery}/> PDF
+                                    </label>
+                                    <label style={styles.queryTypeLabel} htmlFor="presentationMediaQuery">
+                                        <input
+                                        id="presentationMediaQuery"
+                                        name="presentation"
+                                        type="checkbox"
+                                        onChange={this.addRemoveTypeForQuery}/> Presentation
+                                    </label>
+                                    <label style={styles.queryTypeLabel} htmlFor="otherMediaQuery">
+                                        <input
+                                        id="otherMediaQuery"
+                                        name="other"
+                                        type="checkbox"
+                                        onChange={this.addRemoveTypeForQuery}/> Other
+                                    </label>
+                                </div>
                             </div>
                             {JSON.stringify(mediaStore.mediaQuery)}
                         </div>

@@ -16,7 +16,7 @@ class MediaStore {
     };
     @observable newMediaWizardIndex = 0;
     @observable tagSuggestions = ["Sisel", "intrepid", "fucoydon"];
-     mediaQuery = {};
+    mediaQuery = {};
 
     constructor() {
         // this.currentMediaItems = [];
@@ -170,7 +170,7 @@ class MediaStore {
 
     @action addRemoveTypeForQuery(type) {
         // return if no type
-        if(!type){
+        if (!type) {
             return;
         }
         // creates types array if none exists
@@ -186,8 +186,33 @@ class MediaStore {
             this.mediaQuery.types.splice(index, 1);
         }
         console.log(this.mediaQuery.types);
+        this.debounceMediaSearch();
     }
 
+    @action addRemoveOptionForQuery(property, value) {
+        console.log(_.isBoolean(value));
+        if (property && _.isBoolean(value)) {
+            if (value) {
+                this.mediaQuery[property] = value;
+            } else {
+                delete this.mediaQuery[property]
+            }
+        }
+        console.log(this.mediaQuery);
+        this.debounceMediaSearch();
+    }
+
+    // @action mediaStore.debounceMediaSearch();
+
+    @action setQuerySearchString(value){
+        if(value){
+            this.mediaQuery.searchString = value;
+        } else {
+            delete this.mediaQuery.searchString;
+        }
+
+        this.debounceMediaSearch();
+    }
 }
 
 const mediaStore = new MediaStore();
