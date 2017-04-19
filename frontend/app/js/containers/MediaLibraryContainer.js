@@ -26,7 +26,7 @@ const styles = {
         fontSize: 15
     },
     underlineTextStyle: {
-        borderColor: red900,
+        borderColor: red900
     },
     dropDownButtonStyle: {
         fontSize: 12,
@@ -48,7 +48,7 @@ const styles = {
     },
     addMediaModal: {
         width: '80%',
-        maxWidth: 'none',
+        maxWidth: 'none'
     },
     advancedQuerySection: {
         backgroundColor: '#d3d3d3',
@@ -63,7 +63,7 @@ const styles = {
 @observer
 export default class MediaLibraryContainer extends Component {
     state = {
-        openModal: mediaStore.addMediaModalIsOpen,
+        openModal: mediaStore.addMediaModalIsOpen
     };
 
     componentWillMount() {
@@ -72,7 +72,9 @@ export default class MediaLibraryContainer extends Component {
 
     toggleOpenModal = () => {
         mediaStore.toggleOpenMediaModal();
-        this.setState({openModal: !this.state.openModal});
+        this.setState({
+            openModal: !this.state.openModal
+        });
     };
 
     setQuerySearchString = (event) => {
@@ -107,28 +109,48 @@ export default class MediaLibraryContainer extends Component {
 
     render() {
 
-        let mediaItems = mediaStore.currentMediaItems.map((item, index) => (
-                <MediaCard key={index} mediaRecord={item}/>
-            )
-        );
+        let mediaItems = mediaStore
+            .currentMediaItems
+            .map((item, index) => (<MediaCard key={index} mediaRecord={item}/>));
 
         return (
             <div>
-                <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                    <div style={{flex: 1}}></div>
-                    <h1 style={{flex: 1, textAlign: 'center'}}>Media Library </h1>
-                    <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+                <div
+                    style={{
+                    display: 'flex',
+                    justifyContent: 'space-around'
+                }}>
+                    <div style={{
+                        flex: 1
+                    }}></div>
+                    <h1
+                        style={{
+                        flex: 1,
+                        textAlign: 'center'
+                    }}>Media Library
+                    </h1>
+                    <div
+                        style={{
+                        flex: 1,
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center'
+                    }}>
                         <RaisedButton
                             onClick={this.toggleOpenModal}
                             labelPosition="before"
                             label="Add new"
                             labelStyle={styles.addMoreButtonStyle}
-                            icon={<Add/>}
+                            icon={< Add />}
                             backgroundColor={red500}
-                            style={{marginRight: 15}}/>
+                            style={{
+                            marginRight: 15
+                        }}/>
                     </div>
                 </div>
-                <div style={{margin: 15}}>
+                <div style={{
+                    margin: 15
+                }}>
                     <TextField
                         onChange={this.setQuerySearchString}
                         underlineFocusStyle={styles.underlineTextStyle}
@@ -142,88 +164,115 @@ export default class MediaLibraryContainer extends Component {
                         labelPosition="before"
                         label="Search"
                         labelStyle={styles.addMoreButtonStyle}
-                        icon={<Search/>}
+                        icon={< Search />}
                         backgroundColor={red500}
-                        style={{marginLeft: 15}}/>
+                        style={{
+                        marginLeft: 15
+                    }}/>
                 </div>
-                <div style={{marginTop: -20}}>
-                    <FlatButton onClick={this.toggleAdvanced}
-                                rippleColor={red500}
-                                labelPosition="before"
-                                label="Advanced options"
-                                icon={mediaStore.advancedSearchIsVisible ? <ExpandLess color={red500}/> :
-                                    <ExpandMore color={red500}/>}
-                                labelStyle={styles.dropDownButtonStyle}
-                    /></div>
-                {mediaStore.advancedSearchIsVisible ? (
+                <div style={{
+                    marginTop: -20
+                }}>
+                    <FlatButton
+                        onClick={this.toggleAdvanced}
+                        rippleColor={red500}
+                        labelPosition="before"
+                        label="Advanced options"
+                        icon={mediaStore.advancedSearchIsVisible
+                        ? <ExpandLess color={red500}/>
+                        : <ExpandMore color={red500}/>}
+                        labelStyle={styles.dropDownButtonStyle}/></div>
+                {mediaStore.advancedSearchIsVisible
+                    ? (
                         <div>
                             Advanced Options
-                            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                            <div
+                                style={{
+                                display: 'flex',
+                                flexWrap: 'wrap'
+                            }}>
                                 <div style={styles.advancedQuerySection}>
                                     <h6>Availability:</h6>
                                     <label style={styles.queryTypeLabel} htmlFor="customizableQuery"><input
-                                        id="customizableQuery" name="customizable" type="checkbox"
-                                        onChange={this.addRemoveOptionForQuery}/> Customizable </label>
+                                        id="customizableQuery"
+                                        name="customizable"
+                                        type="checkbox"
+                                        onChange={this.addRemoveOptionForQuery}/>
+                                        Customizable
+                                    </label>
                                     <label style={styles.queryTypeLabel} htmlFor="downloadableQuery"><input
-                                        id="downloadableQuery" name="downloadable" type="checkbox"
-                                        onChange={this.addRemoveOptionForQuery}/> Downloadable </label>
+                                        id="downloadableQuery"
+                                        name="downloadable"
+                                        type="checkbox"
+                                        onChange={this.addRemoveOptionForQuery}/>
+                                        Downloadable
+                                    </label>
                                 </div>
 
                                 <div style={styles.advancedQuerySection}>
                                     <h6>Type:</h6>
                                     <label style={styles.queryTypeLabel} htmlFor="imageMediaQuery">
                                         <input
-                                        id="imageMediaQuery"
-                                        name="image"
-                                        type="checkbox"
-                                        onChange={this.addRemoveTypeForQuery}/> Image
+                                            id="imageMediaQuery"
+                                            name="image"
+                                            type="checkbox"
+                                            onChange={this.addRemoveTypeForQuery}/>
+                                        Image
                                     </label>
                                     <label style={styles.queryTypeLabel} htmlFor="videoMediaQuery">
                                         <input
-                                        id="videoMediaQuery"
-                                        name="video"
-                                        type="checkbox"
-                                        onChange={this.addRemoveTypeForQuery}/> video
+                                            id="videoMediaQuery"
+                                            name="video"
+                                            type="checkbox"
+                                            onChange={this.addRemoveTypeForQuery}/>
+                                        video
                                     </label>
                                     <label style={styles.queryTypeLabel} htmlFor="audioMediaQuery">
                                         <input
-                                        id="audioMediaQuery"
-                                        name="audio"
-                                        type="checkbox"
-                                        onChange={this.addRemoveTypeForQuery}/> audio
+                                            id="audioMediaQuery"
+                                            name="audio"
+                                            type="checkbox"
+                                            onChange={this.addRemoveTypeForQuery}/>
+                                        audio
                                     </label>
                                     <label style={styles.queryTypeLabel} htmlFor="pdfMediaQuery">
                                         <input
-                                        id="pdfMediaQuery"
-                                        name="pdf"
-                                        type="checkbox"
-                                        onChange={this.addRemoveTypeForQuery}/> PDF
+                                            id="pdfMediaQuery"
+                                            name="pdf"
+                                            type="checkbox"
+                                            onChange={this.addRemoveTypeForQuery}/>
+                                        PDF
                                     </label>
                                     <label style={styles.queryTypeLabel} htmlFor="presentationMediaQuery">
                                         <input
-                                        id="presentationMediaQuery"
-                                        name="presentation"
-                                        type="checkbox"
-                                        onChange={this.addRemoveTypeForQuery}/> Presentation
+                                            id="presentationMediaQuery"
+                                            name="presentation"
+                                            type="checkbox"
+                                            onChange={this.addRemoveTypeForQuery}/>
+                                        Presentation
                                     </label>
                                     <label style={styles.queryTypeLabel} htmlFor="otherMediaQuery">
                                         <input
-                                        id="otherMediaQuery"
-                                        name="other"
-                                        type="checkbox"
-                                        onChange={this.addRemoveTypeForQuery}/> Other
+                                            id="otherMediaQuery"
+                                            name="other"
+                                            type="checkbox"
+                                            onChange={this.addRemoveTypeForQuery}/>
+                                        Other
                                     </label>
                                 </div>
                             </div>
                             {JSON.stringify(mediaStore.mediaQuery)}
                         </div>
-                    ) : ""}
+                    )
+                    : ""}
                 <div className="row" style={styles.resultsArea}>
                     {mediaItems}
                 </div>
                 {/*{JSON.stringify(mediaStore.currentMediaItems)}*/}
-                <AddMediaDialog open={mediaStore.addMediaModalIsOpen} newMediaItem={mediaStore.newMediaItem}
-                                toggleOpen={this.toggleOpenModal}/>
+                <AddMediaDialog
+                    open={mediaStore.addMediaModalIsOpen}
+                    newMediaItem={mediaStore.newMediaItem}
+                    toggleOpen={this.toggleOpenModal}/>
             </div>
         )
     }
